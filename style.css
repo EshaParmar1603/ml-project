@@ -20,20 +20,19 @@ body {
 .navbar {
     height: 70px;
 
+    padding: 0 7%;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 8%;
-
     background: white;
-
-    border-bottom: 1px solid #e8e8e8;
 
     position: sticky;
     top: 0;
-
     z-index: 1000;
+
+    border-bottom: 1px solid #e7e7e7;
 }
 
 .logo {
@@ -42,22 +41,22 @@ body {
 }
 
 .logo span {
-    color: #ff9f1c;
+    color: #f5a623;
 }
 
 .nav-links {
     display: flex;
-    gap: 35px;
+    gap: 30px;
 }
 
 .nav-links a {
-    text-decoration: none;
     color: #172033;
-    font-weight: 500;
+    text-decoration: none;
+    font-weight: 600;
 }
 
 .nav-links a:hover {
-    color: #ff9f1c;
+    color: #f5a623;
 }
 
 
@@ -73,39 +72,39 @@ body {
     justify-content: space-between;
 
     background:
-        radial-gradient(circle at 80% 30%, #ffe9a8, transparent 30%),
-        linear-gradient(135deg, #ffffff, #fff8e5);
+        radial-gradient(circle at 80% 25%, #ffe7a0, transparent 28%),
+        linear-gradient(135deg, #ffffff, #fff8e7);
 }
 
-.hero-text {
-    max-width: 650px;
+.hero-content {
+    max-width: 700px;
 }
 
-.small-title {
-    color: #ff9f1c;
+.tag {
+    color: #f5a623;
+    font-size: 13px;
     font-weight: bold;
     letter-spacing: 2px;
     margin-bottom: 20px;
 }
 
 .hero h1 {
-    font-size: 60px;
+    font-size: 58px;
     line-height: 1.05;
-
     margin-bottom: 25px;
 }
 
 .hero h1 span {
-    color: #ff9f1c;
+    color: #f5a623;
 }
 
 .hero p {
-    font-size: 18px;
     color: #667085;
+    font-size: 18px;
     line-height: 1.7;
 }
 
-.hero-btn {
+.hero-button {
     display: inline-block;
 
     margin-top: 30px;
@@ -115,21 +114,29 @@ body {
     background: #172033;
     color: white;
 
-    text-decoration: none;
-
     border-radius: 10px;
 
+    text-decoration: none;
     font-weight: bold;
 }
 
-.hero-btn:hover {
-    background: #ff9f1c;
+.hero-button:hover {
+    background: #f5a623;
+    color: #172033;
 }
 
-.hero-icon {
-    font-size: 180px;
+.hero-energy {
+    font-size: 100px;
 
-    animation: float 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    animation: float 3s infinite ease-in-out;
+}
+
+.hero-energy span {
+    font-size: 70px;
 }
 
 @keyframes float {
@@ -139,73 +146,172 @@ body {
     }
 
     50% {
-        transform: translateY(-20px);
+        transform: translateY(-15px);
     }
 
     100% {
         transform: translateY(0);
     }
-
 }
 
 
-/* SECTIONS */
+/* SECTION */
 
-.prediction-section,
-.dashboard,
-.comparison,
-.chart-section {
-    padding: 80px 8%;
+.section {
+    padding: 75px 8%;
 }
 
-.section-heading {
+.section-title {
     margin-bottom: 40px;
 }
 
-.section-heading p {
-    color: #ff9f1c;
+.section-title p {
+    color: #f5a623;
     font-size: 13px;
     font-weight: bold;
     letter-spacing: 2px;
     margin-bottom: 10px;
 }
 
-.section-heading h2 {
-    font-size: 36px;
+.section-title h2 {
+    font-size: 35px;
+    margin-bottom: 10px;
+}
+
+.section-title span {
+    color: #667085;
 }
 
 
-/* INPUTS */
+/* APPLIANCES */
 
-.input-container {
+.appliance-grid {
     display: grid;
 
-    grid-template-columns:
-        repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
     gap: 20px;
 }
 
-.input-card {
+.appliance-card {
     background: white;
 
     padding: 22px;
 
-    border-radius: 15px;
+    border-radius: 16px;
 
     box-shadow:
         0 8px 25px rgba(0, 0, 0, 0.05);
+
+    transition: 0.25s;
 }
 
-.input-card label {
+.appliance-card:hover {
+    transform: translateY(-5px);
+}
+
+.check-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.check-title input {
+    width: 19px;
+    height: 19px;
+
+    accent-color: #f5a623;
+}
+
+.appliance-inputs {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.appliance-inputs input {
+    width: 50%;
+
+    padding: 11px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+}
+
+.appliance-card small {
     display: block;
 
-    margin-bottom: 10px;
+    margin-top: 10px;
 
-    font-weight: 600;
+    color: #888;
 }
 
-.input-card input {
+
+/* RENEWABLE */
+
+.renewable-section {
+    background: white;
+}
+
+.renewable-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 25px;
+}
+
+.renewable-card {
+    padding: 30px;
+
+    border-radius: 18px;
+
+    background: #f8f9fc;
+
+    border: 1px solid #eee;
+}
+
+.renewable-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.big-icon {
+    font-size: 45px;
+}
+
+.renewable-heading h3 {
+    font-size: 23px;
+}
+
+.renewable-heading p {
+    color: #777;
+    margin-top: 5px;
+}
+
+.renewable-card label {
+    display: block;
+
+    font-weight: 600;
+
+    margin-top: 18px;
+
+    margin-bottom: 8px;
+}
+
+.renewable-card input[type="number"] {
     width: 100%;
 
     padding: 13px;
@@ -214,131 +320,160 @@ body {
 
     border-radius: 8px;
 
-    font-size: 16px;
-
-    outline: none;
+    background: white;
 }
 
-.input-card input:focus {
-    border-color: #ff9f1c;
+.toggle-row {
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 10px;
+
+    cursor: pointer;
+}
+
+.toggle-row input {
+    width: 19px;
+    height: 19px;
+
+    accent-color: #f5a623;
 }
 
 
-.predict-btn {
+/* OTHER INPUTS */
+
+.other-inputs {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.other-inputs label {
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+.other-inputs input {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+}
+
+.calculate-button {
     margin-top: 35px;
 
-    padding: 16px 35px;
-
-    background: #ff9f1c;
+    padding: 16px 32px;
 
     border: none;
 
     border-radius: 10px;
+
+    background: #f5a623;
+
+    color: #172033;
 
     font-size: 16px;
 
     font-weight: bold;
 
     cursor: pointer;
-
-    color: #172033;
 }
 
-.predict-btn:hover {
+.calculate-button:hover {
     transform: translateY(-2px);
 
     box-shadow:
-        0 10px 25px rgba(255, 159, 28, 0.3);
+        0 10px 25px rgba(245, 166, 35, 0.3);
 }
 
 
-/* CARDS */
+/* DASHBOARD */
 
-.cards {
+.dashboard-section {
+    background: #f5f7fb;
+}
+
+.result-grid {
     display: grid;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 
-    gap: 22px;
+    gap: 20px;
 }
 
-.energy-card {
+.result-card {
+    background: white;
+
     padding: 25px;
 
     border-radius: 18px;
 
-    background: white;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 20px;
-
     box-shadow:
         0 8px 25px rgba(0, 0, 0, 0.05);
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
-.energy-card:hover {
-    transform: translateY(-7px);
+.result-card:hover {
+    transform: translateY(-5px);
 }
 
-.energy-card p {
+.result-card > span {
+    font-size: 35px;
+}
+
+.result-card p {
     color: #667085;
 
-    margin-bottom: 8px;
+    margin-top: 15px;
 }
 
-.energy-card h2 {
-    font-size: 27px;
+.result-card h2 {
+    font-size: 28px;
+
+    margin: 8px 0;
 }
 
-.card-icon {
-    font-size: 38px;
-
-    width: 65px;
-    height: 65px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 15px;
-
-    background: #fff5d9;
+.result-card small {
+    color: #888;
 }
 
-.wind .card-icon {
-    background: #e5f5ff;
+.solar-result {
+    border-top: 4px solid #f5a623;
 }
 
-.consumption .card-icon {
-    background: #eeeaff;
+.wind-result {
+    border-top: 4px solid #70b7e8;
 }
 
-.renewable .card-icon {
-    background: #e5f8eb;
+.renewable-result {
+    border-top: 4px solid #49a66a;
 }
 
-.grid .card-icon {
-    background: #ffe7e7;
+.grid-result {
+    border-top: 4px solid #e76f51;
 }
 
-.surplus .card-icon {
-    background: #e5f8f5;
+.surplus-result {
+    border-top: 4px solid #45a29e;
 }
 
 
 /* COMPARISON */
 
 .comparison {
-    background: white;
-}
-
-.comparison-container {
     display: grid;
 
     grid-template-columns: 1fr 1fr;
@@ -347,70 +482,79 @@ body {
 }
 
 .comparison-box {
-    background: #f8f9fc;
+    background: white;
 
     padding: 30px;
 
     border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.05);
 }
 
 .comparison-box.after {
-    background: #fff8e5;
+    background: #fff8e7;
 }
 
 .comparison-box h3 {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 
-    font-size: 23px;
+    font-size: 22px;
 }
 
-.compare-row {
+.row {
     display: flex;
 
     justify-content: space-between;
 
     padding: 15px 0;
 
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
 }
 
-.compare-row:last-child {
+.row:last-child {
     border-bottom: none;
 }
 
 
-/* SAVING */
+/* SAVINGS */
 
 .saving-section {
     padding: 60px 8%;
 }
 
 .saving-card {
-    background: #172033;
-
-    color: white;
-
     padding: 35px;
 
     border-radius: 20px;
 
+    background: #172033;
+
+    color: white;
+
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
+
+    justify-content: space-between;
 }
 
 .saving-card p {
-    color: #b9c0cd;
+    color: #aeb6c5;
 
-    margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 .saving-card h2 {
+    color: #f5c15c;
+
     font-size: 42px;
 
-    color: #ffbd4a;
+    margin: 8px 0;
+}
+
+.saving-card span {
+    color: #aeb6c5;
 }
 
 .saving-icon {
@@ -420,12 +564,12 @@ body {
 
 /* CHART */
 
-.chart-container {
+.chart-box {
     background: white;
 
     padding: 30px;
 
-    border-radius: 20px;
+    border-radius: 18px;
 
     max-width: 900px;
 
@@ -436,37 +580,35 @@ body {
 /* FOOTER */
 
 footer {
+    padding: 50px 8%;
+
     background: #172033;
 
     color: white;
 
-    padding: 50px 8%;
-
     text-align: center;
 }
 
-footer h3 {
-    font-size: 25px;
-
+footer h2 {
     margin-bottom: 15px;
 }
 
 footer p {
-    color: #adb5c4;
+    color: #aeb6c5;
 
-    margin: 8px;
+    margin-top: 8px;
 }
 
 
 /* RESPONSIVE */
 
-@media (max-width: 1000px) {
+@media (max-width: 950px) {
 
-    .input-container {
+    .appliance-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .cards {
+    .result-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -479,10 +621,6 @@ footer p {
 
 @media (max-width: 700px) {
 
-    .navbar {
-        padding: 0 5%;
-    }
-
     .nav-links {
         display: none;
     }
@@ -491,29 +629,19 @@ footer p {
         flex-direction: column;
 
         text-align: center;
-
-        padding: 60px 5%;
     }
 
-    .hero-icon {
-        font-size: 100px;
+    .hero-energy {
+        margin-top: 50px;
 
-        margin-top: 40px;
+        font-size: 70px;
     }
 
-    .hero h1 {
-        font-size: 40px;
-    }
-
-    .input-container {
-        grid-template-columns: 1fr;
-    }
-
-    .cards {
-        grid-template-columns: 1fr;
-    }
-
-    .comparison-container {
+    .appliance-grid,
+    .renewable-grid,
+    .result-grid,
+    .comparison,
+    .other-inputs {
         grid-template-columns: 1fr;
     }
 
