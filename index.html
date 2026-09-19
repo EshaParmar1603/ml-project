@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Electricity Consumption Predictor</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">⚡ PowerPredict</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#predict">Predict</a>
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- HERO SECTION -->
+
+        <section class="hero" id="home">
+
+            <div class="hero-content">
+
+                <p class="tag">AI POWERED PREDICTION</p>
+
+                <h1>
+                    Predict Your
+                    <span>Electricity Consumption</span>
+                </h1>
+
+                <p class="description">
+                    Enter a few household details and our
+                    Linear Regression model will estimate
+                    your electricity consumption.
+                </p>
+
+                <a href="#predict" class="hero-button">
+                    Start Prediction →
+                </a>
+
+            </div>
+
+            <div class="hero-icon">
+                ⚡
+            </div>
+
+        </section>
+
+
+        <!-- PREDICTION SECTION -->
+
+        <section class="prediction-section" id="predict">
+
+            <div class="section-heading">
+
+                <p class="tag">PREDICTION MODEL</p>
+
+                <h2>
+                    Enter Household Details
+                </h2>
+
+                <p>
+                    Provide the following information to generate
+                    an electricity consumption prediction.
+                </p>
+
+            </div>
+
+
+            <div class="prediction-container">
+
+                <!-- FORM -->
+
+                <div class="form-card">
+
+                    <form id="predictionForm">
+
+                        <div class="input-group">
+
+                            <label for="temperature">
+                                🌡️ Temperature
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="temperature"
+                                    placeholder="Example: 32"
+                                    step="0.1"
+                                    required
+                                >
+
+                                <span>°C</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="people">
+                                👨‍👩‍👧 Number of People
+                            </label>
+
+                            <input
+                                type="number"
+                                id="people"
+                                placeholder="Example: 4"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="applianceHours">
+                                💡 Appliance Usage
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="applianceHours"
+                                    placeholder="Example: 8"
+                                    min="0"
+                                    step="0.1"
+                                    required
+                                >
+
+                                <span>hours/day</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="houseSize">
+                                🏠 House Size
+                            </label>
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="number"
+                                    id="houseSize"
+                                    placeholder="Example: 1200"
+                                    min="100"
+                                    required
+                                >
+
+                                <span>sq.ft</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="predict-button"
+                        >
+                            ⚡ Predict Consumption
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- RESULT -->
+
+                <div class="result-card">
+
+                    <div class="result-icon">
+                        ⚡
+                    </div>
+
+                    <p class="result-label">
+                        PREDICTED CONSUMPTION
+                    </p>
+
+                    <h3 id="result">
+                        --
+                    </h3>
+
+                    <p id="resultMessage">
+                        Enter your details and click
+                        "Predict Consumption".
+                    </p>
+
+                    <div class="result-info">
+
+                        <div>
+                            <strong>Model</strong>
+                            <span>Linear Regression</span>
+                        </div>
+
+                        <div>
+                            <strong>Target</strong>
+                            <span>kWh</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT -->
+
+        <section class="about" id="about">
+
+            <div class="section-heading">
+
+                <p class="tag">HOW IT WORKS</p>
+
+                <h2>
+                    Simple. Fast. Data Driven.
+                </h2>
+
+            </div>
+
+
+            <div class="steps">
+
+                <div class="step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <h3>Enter Data</h3>
+
+                    <p>
+                        Provide temperature, household size,
+                        appliance usage and house size.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <h3>ML Model</h3>
+
+                    <p>
+                        A Multiple Linear Regression model
+                        processes the input data.
+                    </p>
+
+                </div>
+
+
+                <div class="step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <h3>Get Prediction</h3>
+
+                    <p>
+                        The system estimates your electricity
+                        consumption in kWh.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            ⚡ PowerPredict | Electricity Consumption Prediction
+        </p>
+
+        <p>
+            Built using HTML • CSS • JavaScript • R
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
