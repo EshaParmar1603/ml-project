@@ -5,306 +5,450 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Electricity Consumption Predictor</title>
+    <title>Smart Energy Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <header>
-        <div class="logo">⚡ PowerPredict</div>
+    <!-- NAVBAR -->
+    <nav class="navbar">
 
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#predict">Predict</a>
-            <a href="#about">About</a>
-        </nav>
-    </header>
+        <div class="logo">
+            ⚡ Smart<span>Energy</span>
+        </div>
 
+        <div class="nav-links">
+            <a href="#dashboard">Dashboard</a>
+            <a href="#prediction">Prediction</a>
+            <a href="#comparison">Comparison</a>
+        </div>
 
-    <main>
+    </nav>
 
-        <!-- HERO SECTION -->
 
-        <section class="hero" id="home">
+    <!-- HERO -->
+    <section class="hero">
 
-            <div class="hero-content">
+        <div class="hero-text">
 
-                <p class="tag">AI POWERED PREDICTION</p>
+            <p class="small-title">AI POWERED ENERGY ANALYTICS</p>
 
-                <h1>
-                    Predict Your
-                    <span>Electricity Consumption</span>
-                </h1>
+            <h1>
+                Smart Electricity
+                <span>Consumption</span>
+                Predictor
+            </h1>
 
-                <p class="description">
-                    Enter a few household details and our
-                    Linear Regression model will estimate
-                    your electricity consumption.
-                </p>
+            <p>
+                Predict household electricity consumption and analyze
+                solar, wind and grid energy usage.
+            </p>
 
-                <a href="#predict" class="hero-button">
-                    Start Prediction →
-                </a>
+            <a href="#prediction" class="hero-btn">
+                Start Prediction →
+            </a>
 
-            </div>
+        </div>
 
-            <div class="hero-icon">
-                ⚡
-            </div>
+        <div class="hero-icon">
+            ⚡
+        </div>
 
-        </section>
+    </section>
 
 
-        <!-- PREDICTION SECTION -->
+    <!-- INPUT SECTION -->
+    <section class="prediction-section" id="prediction">
 
-        <section class="prediction-section" id="predict">
+        <div class="section-heading">
 
-            <div class="section-heading">
+            <p>ENERGY INPUTS</p>
 
-                <p class="tag">PREDICTION MODEL</p>
+            <h2>Enter Household Details</h2>
 
-                <h2>
-                    Enter Household Details
-                </h2>
+        </div>
 
-                <p>
-                    Provide the following information to generate
-                    an electricity consumption prediction.
-                </p>
 
-            </div>
+        <div class="input-container">
 
+            <div class="input-card">
 
-            <div class="prediction-container">
+                <label>👨‍👩‍👧 Number of People</label>
 
-                <!-- FORM -->
-
-                <div class="form-card">
-
-                    <form id="predictionForm">
-
-                        <div class="input-group">
-
-                            <label for="temperature">
-                                🌡️ Temperature
-                            </label>
-
-                            <div class="input-wrapper">
-
-                                <input
-                                    type="number"
-                                    id="temperature"
-                                    placeholder="Example: 32"
-                                    step="0.1"
-                                    required
-                                >
-
-                                <span>°C</span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="input-group">
-
-                            <label for="people">
-                                👨‍👩‍👧 Number of People
-                            </label>
-
-                            <input
-                                type="number"
-                                id="people"
-                                placeholder="Example: 4"
-                                min="1"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="input-group">
-
-                            <label for="applianceHours">
-                                💡 Appliance Usage
-                            </label>
-
-                            <div class="input-wrapper">
-
-                                <input
-                                    type="number"
-                                    id="applianceHours"
-                                    placeholder="Example: 8"
-                                    min="0"
-                                    step="0.1"
-                                    required
-                                >
-
-                                <span>hours/day</span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="input-group">
-
-                            <label for="houseSize">
-                                🏠 House Size
-                            </label>
-
-                            <div class="input-wrapper">
-
-                                <input
-                                    type="number"
-                                    id="houseSize"
-                                    placeholder="Example: 1200"
-                                    min="100"
-                                    required
-                                >
-
-                                <span>sq.ft</span>
-
-                            </div>
-
-                        </div>
-
-
-                        <button
-                            type="submit"
-                            class="predict-button"
-                        >
-                            ⚡ Predict Consumption
-                        </button>
-
-                    </form>
-
-                </div>
-
-
-                <!-- RESULT -->
-
-                <div class="result-card">
-
-                    <div class="result-icon">
-                        ⚡
-                    </div>
-
-                    <p class="result-label">
-                        PREDICTED CONSUMPTION
-                    </p>
-
-                    <h3 id="result">
-                        --
-                    </h3>
-
-                    <p id="resultMessage">
-                        Enter your details and click
-                        "Predict Consumption".
-                    </p>
-
-                    <div class="result-info">
-
-                        <div>
-                            <strong>Model</strong>
-                            <span>Linear Regression</span>
-                        </div>
-
-                        <div>
-                            <strong>Target</strong>
-                            <span>kWh</span>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- ABOUT -->
-
-        <section class="about" id="about">
-
-            <div class="section-heading">
-
-                <p class="tag">HOW IT WORKS</p>
-
-                <h2>
-                    Simple. Fast. Data Driven.
-                </h2>
+                <input
+                    type="number"
+                    id="people"
+                    value="4"
+                    min="1"
+                >
 
             </div>
 
 
-            <div class="steps">
+            <div class="input-card">
 
-                <div class="step">
+                <label>🌡️ Temperature (°C)</label>
 
-                    <div class="step-number">
-                        01
-                    </div>
+                <input
+                    type="number"
+                    id="temperature"
+                    value="30"
+                >
 
-                    <h3>Enter Data</h3>
-
-                    <p>
-                        Provide temperature, household size,
-                        appliance usage and house size.
-                    </p>
-
-                </div>
+            </div>
 
 
-                <div class="step">
+            <div class="input-card">
 
-                    <div class="step-number">
-                        02
-                    </div>
+                <label>🏠 Appliances</label>
 
-                    <h3>ML Model</h3>
+                <input
+                    type="number"
+                    id="appliances"
+                    value="8"
+                    min="1"
+                >
 
-                    <p>
-                        A Multiple Linear Regression model
-                        processes the input data.
-                    </p>
-
-                </div>
+            </div>
 
 
-                <div class="step">
+            <div class="input-card">
 
-                    <div class="step-number">
-                        03
-                    </div>
+                <label>☀️ Solar Capacity (kW)</label>
 
-                    <h3>Get Prediction</h3>
+                <input
+                    type="number"
+                    id="solarCapacity"
+                    value="3"
+                    min="0"
+                    step="0.1"
+                >
 
-                    <p>
-                        The system estimates your electricity
-                        consumption in kWh.
-                    </p>
+            </div>
 
+
+            <div class="input-card">
+
+                <label>☀️ Sunlight Hours</label>
+
+                <input
+                    type="number"
+                    id="sunHours"
+                    value="5"
+                    min="0"
+                    step="0.1"
+                >
+
+            </div>
+
+
+            <div class="input-card">
+
+                <label>🌬️ Wind Capacity (kW)</label>
+
+                <input
+                    type="number"
+                    id="windCapacity"
+                    value="1"
+                    min="0"
+                    step="0.1"
+                >
+
+            </div>
+
+
+            <div class="input-card">
+
+                <label>🌬️ Wind Speed (m/s)</label>
+
+                <input
+                    type="number"
+                    id="windSpeed"
+                    value="6"
+                    min="0"
+                    step="0.1"
+                >
+
+            </div>
+
+
+            <div class="input-card">
+
+                <label>💰 Electricity Rate (₹/kWh)</label>
+
+                <input
+                    type="number"
+                    id="rate"
+                    value="8"
+                    min="0"
+                    step="0.1"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button class="predict-btn" onclick="predictEnergy()">
+
+            ⚡ Predict Energy
+
+        </button>
+
+    </section>
+
+
+    <!-- DASHBOARD -->
+    <section class="dashboard" id="dashboard">
+
+        <div class="section-heading">
+
+            <p>LIVE ANALYSIS</p>
+
+            <h2>Energy Dashboard</h2>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="energy-card solar">
+
+                <div class="card-icon">☀️</div>
+
+                <div>
+                    <p>Solar Generation</p>
+
+                    <h2 id="solarResult">0 kWh</h2>
                 </div>
 
             </div>
 
-        </section>
 
-    </main>
+            <div class="energy-card wind">
+
+                <div class="card-icon">🌬️</div>
+
+                <div>
+                    <p>Wind Generation</p>
+
+                    <h2 id="windResult">0 kWh</h2>
+                </div>
+
+            </div>
 
 
+            <div class="energy-card consumption">
+
+                <div class="card-icon">🏠</div>
+
+                <div>
+                    <p>Predicted Consumption</p>
+
+                    <h2 id="consumptionResult">0 kWh</h2>
+                </div>
+
+            </div>
+
+
+            <div class="energy-card renewable">
+
+                <div class="card-icon">♻️</div>
+
+                <div>
+                    <p>Total Renewable</p>
+
+                    <h2 id="renewableResult">0 kWh</h2>
+                </div>
+
+            </div>
+
+
+            <div class="energy-card grid">
+
+                <div class="card-icon">⚡</div>
+
+                <div>
+                    <p>Grid Required</p>
+
+                    <h2 id="gridResult">0 kWh</h2>
+                </div>
+
+            </div>
+
+
+            <div class="energy-card surplus">
+
+                <div class="card-icon">🔋</div>
+
+                <div>
+                    <p>Surplus Energy</p>
+
+                    <h2 id="surplusResult">0 kWh</h2>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BEFORE AFTER -->
+    <section class="comparison" id="comparison">
+
+        <div class="section-heading">
+
+            <p>IMPACT OF RENEWABLE ENERGY</p>
+
+            <h2>Before vs After Solar</h2>
+
+        </div>
+
+
+        <div class="comparison-container">
+
+            <div class="comparison-box">
+
+                <h3>🏠 Without Solar</h3>
+
+                <div class="compare-row">
+
+                    <span>House Consumption</span>
+
+                    <strong id="beforeConsumption">0 kWh</strong>
+
+                </div>
+
+                <div class="compare-row">
+
+                    <span>Renewable Energy</span>
+
+                    <strong>0 kWh</strong>
+
+                </div>
+
+                <div class="compare-row">
+
+                    <span>Grid Electricity</span>
+
+                    <strong id="beforeGrid">0 kWh</strong>
+
+                </div>
+
+                <div class="compare-row">
+
+                    <span>Estimated Cost</span>
+
+                    <strong id="beforeCost">₹0</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="comparison-box after">
+
+                <h3>☀️ With Solar + Wind</h3>
+
+                <div class="compare-row">
+
+                    <span>House Consumption</span>
+
+                    <strong id="afterConsumption">0 kWh</strong>
+
+                </div>
+
+                <div class="compare-row">
+
+                    <span>Renewable Energy</span>
+
+                    <strong id="afterRenewable">0 kWh</strong>
+
+                </div>
+
+                <div class="compare-row">
+
+                    <span>Grid Electricity</span>
+
+                    <strong id="afterGrid">0 kWh</strong>
+
+                </div>
+
+                <div class="compare-row">
+
+                    <span>Estimated Cost</span>
+
+                    <strong id="afterCost">₹0</strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SAVINGS -->
+    <section class="saving-section">
+
+        <div class="saving-card">
+
+            <div>
+
+                <p>ESTIMATED MONTHLY SAVING</p>
+
+                <h2 id="savingResult">₹0</h2>
+
+            </div>
+
+            <div class="saving-icon">
+                💰
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHART -->
+    <section class="chart-section">
+
+        <div class="section-heading">
+
+            <p>ENERGY ANALYSIS</p>
+
+            <h2>Energy Distribution</h2>
+
+        </div>
+
+        <div class="chart-container">
+
+            <canvas id="energyChart"></canvas>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
     <footer>
 
+        <h3>⚡ SmartEnergy</h3>
+
         <p>
-            ⚡ PowerPredict | Electricity Consumption Prediction
+            AI based electricity consumption and renewable
+            energy analysis dashboard.
         </p>
 
         <p>
-            Built using HTML • CSS • JavaScript • R
+            © 2026 SmartEnergy Project
         </p>
 
     </footer>

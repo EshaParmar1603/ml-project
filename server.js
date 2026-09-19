@@ -1,129 +1,404 @@
-const express = require("express");
-
-const cors = require("cors");
-
-const { execFile } = require("child_process");
-
-const path = require("path");
+let energyChart;
 
 
-const app = express();
+/* ==============================
+   ENERGY PREDICTION
+================================ */
 
-const PORT = 3000;
+function predictEnergy() {
+
+    // Get inputs
+
+    const people =
+        Number(document.getElementById("people").value);
+
+    const temperature =
+        Number(document.getElementById("temperature").value);
+
+    const appliances =
+        Number(document.getElementById("appliances").value);
+
+    const solarCapacity =
+        Number(document.getElementById("solarCapacity").value);
+
+    const sunHours =
+        Number(document.getElementById("sunHours").value);
+
+    const windCapacity =
+        Number(document.getElementById("windCapacity").value);
+
+    const windSpeed =
+        Number(document.getElementById("windSpeed").value);
+
+    const rate =
+        Number(document.getElementById("rate").value);
 
 
-app.use(cors());
+    /* ==============================
+       LINEAR REGRESSION STYLE MODEL
 
-app.use(express.json());
+       Consumption =
+       base
+       + people
+       + temperature
+       + appliances
+    ============================== */
+
+    const baseConsumption = 2;
+
+    const peopleEffect = people * 1.2;
+
+    const temperatureEffect =
+        Math.max(0, temperature - 25) * 0.25;
+
+    const applianceEffect =
+        appliances * 0.75;
 
 
-app.post("/predict", (req, res) => {
-
-    const {
-        temperature,
-        people,
-        applianceHours,
-        houseSize
-    } = req.body;
+    let consumption =
+        baseConsumption +
+        peopleEffect +
+        temperatureEffect +
+        applianceEffect;
 
 
-    // Validation
+    consumption =
+        Number(consumption.toFixed(2));
 
-    if (
-        !Number.isFinite(Number(temperature)) ||
-        !Number.isFinite(Number(people)) ||
-        !Number.isFinite(Number(applianceHours)) ||
-        !Number.isFinite(Number(houseSize))
-    ) {
 
-        return res.status(400).json({
+    /* ==============================
+       SOLAR GENERATION
 
-            error: "Invalid input values."
+       Solar Energy =
+       Capacity × Sunlight Hours × Efficiency
+    ============================== */
 
-        });
+    const solarEfficiency = 0.80;
+
+    let solarGeneration =
+        solarCapacity *
+        sunHours *
+        solarEfficiency;
+
+
+    solarGeneration =
+        Number(solarGeneration.toFixed(2));
+
+
+    /* ==============================
+       WIND GENERATION
+
+       Simple educational model
+    ============================== */
+
+    let windEfficiency = 0;
+
+    if (windSpeed < 3) {
+
+        windEfficiency = 0;
+
+    }
+
+    else if (windSpeed < 6) {
+
+        windEfficiency = 0.25;
+
+    }
+
+    else if (windSpeed < 9) {
+
+        windEfficiency = 0.45;
+
+    }
+
+    else {
+
+        windEfficiency = 0.60;
 
     }
 
 
-    const rFile = path.join(
-        __dirname,
-        "electricity_prediction.R"
+    let windGeneration =
+        windCapacity *
+        windSpeed *
+        windEfficiency;
+
+
+    windGeneration =
+        Number(windGeneration.toFixed(2));
+
+
+    /* ==============================
+       TOTAL RENEWABLE
+    ============================== */
+
+    const renewable =
+        Number(
+            (solarGeneration + windGeneration)
+            .toFixed(2)
+        );
+
+
+    /* ==============================
+       GRID / SURPLUS
+    ============================== */
+
+    let gridRequired = 0;
+
+    let surplusEnergy = 0;
+
+
+    if (renewable < consumption) {
+
+        gridRequired =
+            consumption - renewable;
+
+    }
+
+    else {
+
+        surplusEnergy =
+            renewable - consumption;
+
+    }
+
+
+    gridRequired =
+        Number(gridRequired.toFixed(2));
+
+    surplusEnergy =
+        Number(surplusEnergy.toFixed(2));
+
+
+    /* ==============================
+       COST CALCULATION
+    ============================== */
+
+    const beforeCost =
+        consumption * rate;
+
+
+    const afterCost =
+        gridRequired * rate;
+
+
+    const dailySaving =
+        Math.max(
+            0,
+            beforeCost - afterCost
+        );
+
+
+    const monthlySaving =
+        dailySaving * 30;
+
+
+    /* ==============================
+       UPDATE DASHBOARD
+    ============================== */
+
+    document.getElementById("solarResult")
+        .innerText =
+        solarGeneration + " kWh";
+
+
+    document.getElementById("windResult")
+        .innerText =
+        windGeneration + " kWh";
+
+
+    document.getElementById("consumptionResult")
+        .innerText =
+        consumption + " kWh";
+
+
+    document.getElementById("renewableResult")
+        .innerText =
+        renewable + " kWh";
+
+
+    document.getElementById("gridResult")
+        .innerText =
+        gridRequired + " kWh";
+
+
+    document.getElementById("surplusResult")
+        .innerText =
+        surplusEnergy + " kWh";
+
+
+    /* ==============================
+       BEFORE / AFTER
+    ============================== */
+
+    document.getElementById("beforeConsumption")
+        .innerText =
+        consumption + " kWh";
+
+
+    document.getElementById("beforeGrid")
+        .innerText =
+        consumption + " kWh";
+
+
+    document.getElementById("beforeCost")
+        .innerText =
+        "₹" +
+        beforeCost.toFixed(2);
+
+
+    document.getElementById("afterConsumption")
+        .innerText =
+        consumption + " kWh";
+
+
+    document.getElementById("afterRenewable")
+        .innerText =
+        renewable + " kWh";
+
+
+    document.getElementById("afterGrid")
+        .innerText =
+        gridRequired + " kWh";
+
+
+    document.getElementById("afterCost")
+        .innerText =
+        "₹" +
+        afterCost.toFixed(2);
+
+
+    document.getElementById("savingResult")
+        .innerText =
+        "₹" +
+        monthlySaving.toFixed(2);
+
+
+    /* ==============================
+       CHART
+    ============================== */
+
+    createChart(
+        consumption,
+        solarGeneration,
+        windGeneration,
+        gridRequired,
+        surplusEnergy
     );
 
-
-    const rArguments = [
-
-        String(temperature),
-
-        String(people),
-
-        String(applianceHours),
-
-        String(houseSize)
-
-    ];
+}
 
 
-    execFile(
-        "Rscript",
-        [rFile, ...rArguments],
-        (error, stdout, stderr) => {
+/* ==============================
+   CREATE CHART
+================================ */
 
-            if (error) {
+function createChart(
+    consumption,
+    solar,
+    wind,
+    grid,
+    surplus
+) {
 
-                console.error(stderr);
+    const ctx =
+        document
+            .getElementById("energyChart")
+            .getContext("2d");
 
-                return res.status(500).json({
 
-                    error:
-                        "R prediction failed. Make sure R and Rscript are installed."
+    if (energyChart) {
 
-                });
+        energyChart.destroy();
+
+    }
+
+
+    energyChart =
+        new Chart(ctx, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "Consumption",
+                    "Solar",
+                    "Wind",
+                    "Grid",
+                    "Surplus"
+                ],
+
+                datasets: [
+
+                    {
+
+                        label:
+                            "Energy (kWh/day)",
+
+                        data: [
+
+                            consumption,
+                            solar,
+                            wind,
+                            grid,
+                            surplus
+
+                        ],
+
+                        borderWidth: 1
+
+                    }
+
+                ]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+
+                        display: true
+
+                    }
+
+                },
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Energy (kWh)"
+
+                        }
+
+                    }
+
+                }
 
             }
 
+        });
 
-            const prediction =
-                Number(stdout.trim());
-
-
-            if (!Number.isFinite(prediction)) {
-
-                return res.status(500).json({
-
-                    error:
-                        "Invalid prediction returned by R."
-
-                });
-
-            }
+}
 
 
-            res.json({
+/* ==============================
+   INITIAL PREDICTION
+================================ */
 
-                prediction: prediction
-
-            });
-
-        }
-    );
-
-});
-
-
-app.get("/", (req, res) => {
-
-    res.send(
-        "Electricity Prediction API is running ⚡"
-    );
-
-});
-
-
-app.listen(PORT, () => {
-
-    console.log(
-        `Server running at http://localhost:${PORT}`
-    );
-
-});
+window.addEventListener(
+    "load",
+    predictEnergy
+);
