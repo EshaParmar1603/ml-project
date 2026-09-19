@@ -1,109 +1,211 @@
+/* =====================================================
+   SMART ENERGY CALCULATOR
+   Complete Electricity + Solar + Wind + Bill Calculation
+===================================================== */
+
 let energyChart = null;
 
 
-/* =========================================
+/* =====================================================
+   BUTTON
+===================================================== */
+
+const calculateBtn = document.getElementById("calculateBtn");
+
+calculateBtn.addEventListener("click", calculateEnergy);
+
+
+/* =====================================================
+   HELPER FUNCTION
+===================================================== */
+
+function getNumber(id) {
+
+    const element = document.getElementById(id);
+
+    if (!element) {
+        return 0;
+    }
+
+    const value = Number(element.value);
+
+    if (!Number.isFinite(value)) {
+        return 0;
+    }
+
+    return Math.max(value, 0);
+}
+
+
+/* =====================================================
    MAIN CALCULATION
-========================================= */
+===================================================== */
 
 function calculateEnergy() {
 
-    /* -------------------------------------
-       HOUSEHOLD INFORMATION
-    ------------------------------------- */
+    /* =================================================
+       1. HOUSEHOLD INFORMATION
+    ================================================= */
 
-    const people =
-        Number(document.getElementById("people").value);
+    const people = Math.max(
+        getNumber("people"),
+        1
+    );
 
-    const temperature =
-        Number(document.getElementById("temperature").value);
+    const rate = getNumber("rate");
 
-    const rate =
-        Number(document.getElementById("rate").value);
+    const temperature = getNumber("temperature");
 
 
-    /* -------------------------------------
-       APPLIANCE CONSUMPTION
-       
-       Energy = Power × Quantity × Hours
-       Convert Wh → kWh by /1000
-    ------------------------------------- */
+    /* =================================================
+       2. APPLIANCE CALCULATION
+    ================================================= */
 
-    const appliances =
+    let totalConsumption = 0;
+
+    let applianceDetails = "";
+
+    let selectedAppliances = 0;
+
+
+    const applianceCards =
         document.querySelectorAll(".appliance-card");
 
 
-    let applianceEnergy = 0;
-
-
-    appliances.forEach(card => {
+    applianceCards.forEach(function (card) {
 
         const checkbox =
             card.querySelector(".appliance-check");
+
+
+        /* Only selected appliances */
 
         if (!checkbox.checked) {
             return;
         }
 
 
+        selectedAppliances++;
+
+
+        const applianceName =
+            checkbox.dataset.name;
+
+
         const power =
-            Number(checkbox.dataset.power);
+            Number(checkbox.dataset.power) || 0;
 
 
         const quantity =
-            Number(
-                card.querySelector(".quantity").value
+            Math.max(
+                Number(
+                    card.querySelector(".quantity").value
+                ) || 0,
+                0
             );
 
 
         const hours =
-            Number(
-                card.querySelector(".hours").value
+            Math.min(
+                Math.max(
+                    Number(
+                        card.querySelector(".hours").value
+                    ) || 0,
+                    0
+                ),
+                24
             );
 
 
-        const energy =
+        /* ---------------------------------------------
+           Appliance Formula
+
+           Energy =
+           Power × Quantity × Hours / 1000
+        --------------------------------------------- */
+
+        const dailyEnergy =
             (power * quantity * hours) / 1000;
 
 
-        applianceEnergy += energy;
+        const monthlyEnergy =
+            dailyEnergy * 30;
 
+
+        totalConsumption += dailyEnergy;
+
+
+        applianceDetails += `
+
+            <div class="calculation-line">
+
+                <b>🔌 ${applianceName}</b>
+
+                <br><br>
+
+                Power:
+                <b>${power} W</b>
+
+                <br>
+
+                Quantity:
+                <b>${quantity}</b>
+
+                <br>
+
+                Usage:
+                <b>${hours} hours/day</b>
+
+                <br><br>
+
+                Daily Energy:
+
+                ${power} × ${quantity} × ${hours} ÷ 1000
+
+                =
+
+                <b>${dailyEnergy.toFixed(2)} kWh/day</b>
+
+                <br>
+
+                Monthly Energy:
+
+                ${dailyEnergy.toFixed(2)} × 30
+
+                =
+
+                <b>${monthlyEnergy.toFixed(2)} kWh/month</b>
+
+            </div>
+
+        `;
     });
 
 
-    /* -------------------------------------
-       SIMPLE LINEAR REGRESSION STYLE
-       ADJUSTMENT
+    /* =================================================
+       IF NO APPLIANCE SELECTED
+    ================================================= */
 
-       This represents the ML portion
-       for demonstration.
+    if (selectedAppliances === 0) {
 
-       Later this can be replaced with
-       your trained Python/R model.
-    ------------------------------------- */
+        applianceDetails = `
 
-    const peopleEffect =
-        people * 0.15;
+            <div class="calculation-line">
 
+                ⚠️ No appliance selected.
 
-    const temperatureEffect =
-        Math.max(0, temperature - 25) * 0.08;
+                Please select at least one appliance.
 
+            </div>
 
-    let predictedConsumption =
-        applianceEnergy +
-        peopleEffect +
-        temperatureEffect;
+        `;
+
+    }
 
 
-    predictedConsumption =
-        Number(
-            predictedConsumption.toFixed(2)
-        );
-
-
-    /* -------------------------------------
-       SOLAR
-    ------------------------------------- */
+    /* =================================================
+       3. SOLAR CALCULATION
+    ================================================= */
 
     const solarAvailable =
         document.getElementById(
@@ -111,58 +213,42 @@ function calculateEnergy() {
         ).checked;
 
 
+    const solarCapacity =
+        getNumber("solarCapacity");
+
+
+    const sunlightHours =
+        getNumber("sunlightHours");
+
+
     let solarGeneration = 0;
+
+
+    /*
+        Solar efficiency assumption = 80%
+
+        Solar Energy =
+        Capacity × Sunlight Hours × Efficiency
+    */
 
 
     if (solarAvailable) {
 
-        const solarCapacity =
-            Number(
-                document.getElementById(
-                    "solarCapacity"
-                ).value
-            );
-
-
-        const sunHours =
-            Number(
-                document.getElementById(
-                    "sunHours"
-                ).value
-            );
-
-
-        /*
-           Educational estimate.
-
-           Real solar output depends on:
-           panel efficiency,
-           temperature,
-           orientation,
-           shading,
-           inverter losses, etc.
-        */
-
-        const solarEfficiency = 0.80;
-
-
         solarGeneration =
             solarCapacity *
-            sunHours *
-            solarEfficiency;
+            sunlightHours *
+            0.80;
 
     }
 
 
-    solarGeneration =
-        Number(
-            solarGeneration.toFixed(2)
-        );
+    const monthlySolar =
+        solarGeneration * 30;
 
 
-    /* -------------------------------------
-       LOCAL WIND
-    ------------------------------------- */
+    /* =================================================
+       4. WIND CALCULATION
+    ================================================= */
 
     const windAvailable =
         document.getElementById(
@@ -170,188 +256,157 @@ function calculateEnergy() {
         ).checked;
 
 
-    let windGeneration = 0;
+    const windCapacity =
+        getNumber("windCapacity");
 
 
-    if (windAvailable) {
-
-        const windCapacity =
-            Number(
-                document.getElementById(
-                    "windCapacity"
-                ).value
-            );
+    const numberOfTurbines =
+        getNumber("numberOfTurbines");
 
 
-        const turbines =
-            Number(
-                document.getElementById(
-                    "windTurbines"
-                ).value
-            );
+    const windSpeed =
+        getNumber("windSpeed");
 
 
-        const windSpeed =
-            Number(
-                document.getElementById(
-                    "windSpeed"
-                ).value
-            );
+    const windShare =
+        Math.min(
+            getNumber("windShare"),
+            100
+        );
 
 
-        /*
-           Educational wind estimate.
-
-           This is NOT actual turbine
-           power-curve modelling.
-
-           Capacity factor approximation.
-        */
-
-        let capacityFactor = 0;
+    let capacityFactor = 0;
 
 
-        if (windSpeed < 3) {
+    /*
+        Approximate capacity factor
+        based on average wind speed.
+    */
 
-            capacityFactor = 0;
+    if (windSpeed < 3) {
 
-        }
-
-        else if (windSpeed < 5) {
-
-            capacityFactor = 0.10;
-
-        }
-
-        else if (windSpeed < 7) {
-
-            capacityFactor = 0.25;
-
-        }
-
-        else if (windSpeed < 9) {
-
-            capacityFactor = 0.40;
-
-        }
-
-        else {
-
-            capacityFactor = 0.50;
-
-        }
-
-
-        /*
-           kW × 24 hours × capacity factor
-           = estimated daily kWh
-        */
-
-        windGeneration =
-            windCapacity *
-            turbines *
-            24 *
-            capacityFactor;
+        capacityFactor = 0;
 
     }
 
+    else if (windSpeed < 5) {
 
-    windGeneration =
-        Number(
-            windGeneration.toFixed(2)
-        );
+        capacityFactor = 0.10;
 
+    }
 
-    /* -------------------------------------
-       TOTAL RENEWABLE
-    ------------------------------------- */
+    else if (windSpeed < 7) {
 
-    const totalRenewable =
-        Number(
-            (
-                solarGeneration +
-                windGeneration
-            ).toFixed(2)
-        );
+        capacityFactor = 0.25;
 
+    }
 
-    /* -------------------------------------
-       GRID AND SURPLUS
-    ------------------------------------- */
+    else if (windSpeed < 9) {
 
-    let gridRequired = 0;
-
-    let surplus = 0;
-
-
-    if (
-        totalRenewable <
-        predictedConsumption
-    ) {
-
-        gridRequired =
-            predictedConsumption -
-            totalRenewable;
+        capacityFactor = 0.40;
 
     }
 
     else {
 
-        surplus =
-            totalRenewable -
-            predictedConsumption;
+        capacityFactor = 0.50;
 
     }
 
 
-    gridRequired =
-        Number(
-            gridRequired.toFixed(2)
-        );
+    let rawWindGeneration = 0;
+
+    let windGeneration = 0;
 
 
-    surplus =
-        Number(
-            surplus.toFixed(2)
-        );
+    if (windAvailable) {
+
+        /*
+            Raw Wind Energy
+
+            = Capacity × Turbines × 24 × CF
+        */
+
+        rawWindGeneration =
+            windCapacity *
+            numberOfTurbines *
+            24 *
+            capacityFactor;
 
 
-    /* -------------------------------------
-       COST
-    ------------------------------------- */
+        /*
+            Energy available to household
+        */
 
-    const beforeCost =
-        predictedConsumption * rate;
+        windGeneration =
+            rawWindGeneration *
+            (windShare / 100);
+
+    }
 
 
-    const afterCost =
-        gridRequired * rate;
+    const monthlyWind =
+        windGeneration * 30;
 
 
-    const dailySaving =
+    /* =================================================
+       5. TOTAL RENEWABLE ENERGY
+    ================================================= */
+
+    const totalRenewable =
+        solarGeneration +
+        windGeneration;
+
+
+    const monthlyRenewable =
+        totalRenewable * 30;
+
+
+    /* =================================================
+       6. GRID ELECTRICITY
+    ================================================= */
+
+    const gridRequired =
         Math.max(
-            0,
-            beforeCost - afterCost
+            totalConsumption -
+            totalRenewable,
+            0
         );
 
 
-    const monthlySaving =
-        dailySaving * 30;
+    const monthlyGrid =
+        gridRequired * 30;
 
 
-    /* -------------------------------------
-       RENEWABLE PERCENTAGE
-    ------------------------------------- */
+    /* =================================================
+       7. SURPLUS ENERGY
+    ================================================= */
+
+    const surplus =
+        Math.max(
+            totalRenewable -
+            totalConsumption,
+            0
+        );
+
+
+    const monthlySurplus =
+        surplus * 30;
+
+
+    /* =================================================
+       8. RENEWABLE PERCENTAGE
+    ================================================= */
 
     let renewablePercentage = 0;
 
 
-    if (predictedConsumption > 0) {
+    if (totalConsumption > 0) {
 
         renewablePercentage =
             (
                 totalRenewable /
-                predictedConsumption
+                totalConsumption
             ) * 100;
 
     }
@@ -364,141 +419,693 @@ function calculateEnergy() {
         );
 
 
-    renewablePercentage =
-        renewablePercentage.toFixed(1);
+    /* =================================================
+       9. ELECTRICITY BILL BEFORE RENEWABLE
+    ================================================= */
+
+    const dailyBillBefore =
+        totalConsumption * rate;
 
 
-    /* -------------------------------------
-       UPDATE DASHBOARD
-    ------------------------------------- */
+    const monthlyBillBefore =
+        dailyBillBefore * 30;
+
+
+    /* =================================================
+       10. ELECTRICITY BILL AFTER RENEWABLE
+    ================================================= */
+
+    const dailyBillAfter =
+        gridRequired * rate;
+
+
+    const monthlyBillAfter =
+        dailyBillAfter * 30;
+
+
+    /* =================================================
+       11. SAVINGS
+    ================================================= */
+
+    const dailySaving =
+        Math.max(
+            dailyBillBefore -
+            dailyBillAfter,
+            0
+        );
+
+
+    const monthlySaving =
+        dailySaving * 30;
+
+
+    /* =================================================
+       12. DISPLAY DASHBOARD
+    ================================================= */
+
+    document.getElementById(
+        "consumptionResult"
+    ).textContent =
+        totalConsumption.toFixed(2);
+
 
     document.getElementById(
         "solarResult"
-    ).innerText =
-        solarGeneration + " kWh";
+    ).textContent =
+        solarGeneration.toFixed(2);
 
 
     document.getElementById(
         "windResult"
-    ).innerText =
-        windGeneration + " kWh";
-
-
-    document.getElementById(
-        "consumptionResult"
-    ).innerText =
-        predictedConsumption + " kWh";
+    ).textContent =
+        windGeneration.toFixed(2);
 
 
     document.getElementById(
         "renewableResult"
-    ).innerText =
-        totalRenewable + " kWh";
-
-
-    document.getElementById(
-        "renewablePercent"
-    ).innerText =
-        renewablePercentage +
-        "% of consumption";
+    ).textContent =
+        totalRenewable.toFixed(2);
 
 
     document.getElementById(
         "gridResult"
-    ).innerText =
-        gridRequired + " kWh";
+    ).textContent =
+        gridRequired.toFixed(2);
+
+
+    document.getElementById(
+        "percentageResult"
+    ).textContent =
+        renewablePercentage.toFixed(2) + "%";
+
+
+    document.getElementById(
+        "dailyBillBefore"
+    ).textContent =
+        "₹" + dailyBillBefore.toFixed(2);
+
+
+    document.getElementById(
+        "monthlyBillBefore"
+    ).textContent =
+        "₹" + monthlyBillBefore.toFixed(2);
+
+
+    document.getElementById(
+        "dailyBillAfter"
+    ).textContent =
+        "₹" + dailyBillAfter.toFixed(2);
+
+
+    document.getElementById(
+        "monthlyBillAfter"
+    ).textContent =
+        "₹" + monthlyBillAfter.toFixed(2);
+
+
+    document.getElementById(
+        "monthlySaving"
+    ).textContent =
+        "₹" + monthlySaving.toFixed(2);
 
 
     document.getElementById(
         "surplusResult"
-    ).innerText =
-        surplus + " kWh";
+    ).textContent =
+        surplus.toFixed(2);
 
 
-    /* -------------------------------------
-       BEFORE / AFTER
-    ------------------------------------- */
-
-    document.getElementById(
-        "beforeConsumption"
-    ).innerText =
-        predictedConsumption +
-        " kWh";
-
+    /* =================================================
+       13. BILL SUMMARY
+    ================================================= */
 
     document.getElementById(
-        "beforeGrid"
-    ).innerText =
-        predictedConsumption +
-        " kWh";
+        "billConsumption"
+    ).textContent =
+        totalConsumption.toFixed(2)
+        + " kWh";
 
 
     document.getElementById(
-        "beforeCost"
-    ).innerText =
-        "₹" +
-        beforeCost.toFixed(2);
+        "billRate"
+    ).textContent =
+        "₹"
+        + rate.toFixed(2)
+        + " / kWh";
 
 
     document.getElementById(
-        "afterConsumption"
-    ).innerText =
-        predictedConsumption +
-        " kWh";
+        "billBefore"
+    ).textContent =
+        "₹"
+        + dailyBillBefore.toFixed(2);
 
 
     document.getElementById(
-        "afterSolar"
-    ).innerText =
-        solarGeneration +
-        " kWh";
+        "billRenewable"
+    ).textContent =
+        totalRenewable.toFixed(2)
+        + " kWh";
 
 
     document.getElementById(
-        "afterWind"
-    ).innerText =
-        windGeneration +
-        " kWh";
+        "billGrid"
+    ).textContent =
+        gridRequired.toFixed(2)
+        + " kWh";
 
 
     document.getElementById(
-        "afterGrid"
-    ).innerText =
-        gridRequired +
-        " kWh";
+        "billAfter"
+    ).textContent =
+        "₹"
+        + dailyBillAfter.toFixed(2);
 
 
     document.getElementById(
-        "afterCost"
-    ).innerText =
-        "₹" +
-        afterCost.toFixed(2);
+        "billMonthly"
+    ).textContent =
+        "₹"
+        + monthlyBillAfter.toFixed(2);
 
 
     document.getElementById(
-        "savingResult"
-    ).innerText =
-        "₹" +
-        monthlySaving.toFixed(2) +
-        " / month";
+        "billSaving"
+    ).textContent =
+        "₹"
+        + monthlySaving.toFixed(2);
 
 
-    /* -------------------------------------
-       CHART
-    ------------------------------------- */
+    /* =================================================
+       14. DETAILED BILL
+    ================================================= */
+
+    const detailedCalculation = `
+
+        <div class="calculation-line">
+
+            <h3>🏠 Household Information</h3>
+
+            <br>
+
+            People:
+            <b>${people}</b>
+
+            <br>
+
+            Temperature:
+            <b>${temperature} °C</b>
+
+            <br>
+
+            Electricity Rate:
+            <b>₹${rate.toFixed(2)} / kWh</b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>🔌 Appliance Calculation</h3>
+
+            <br>
+
+            ${applianceDetails}
+
+            <br>
+
+            <b>
+                Total Household Consumption:
+            </b>
+
+            ${totalConsumption.toFixed(2)}
+            kWh/day
+
+            <br>
+
+            Monthly Consumption:
+
+            ${totalConsumption.toFixed(2)}
+            × 30
+
+            =
+
+            <b>
+                ${(totalConsumption * 30).toFixed(2)}
+                kWh/month
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>☀️ Solar Calculation</h3>
+
+            <br>
+
+            Solar Available:
+            <b>${solarAvailable ? "Yes" : "No"}</b>
+
+            <br>
+
+            Solar Capacity:
+            <b>${solarCapacity} kW</b>
+
+            <br>
+
+            Sunlight:
+            <b>${sunlightHours} hours/day</b>
+
+            <br><br>
+
+            Solar Generation:
+
+            ${solarCapacity}
+            ×
+            ${sunlightHours}
+            ×
+            0.80
+
+            =
+
+            <b>
+                ${solarGeneration.toFixed(2)}
+                kWh/day
+            </b>
+
+            <br>
+
+            Monthly Solar:
+
+            <b>
+                ${monthlySolar.toFixed(2)}
+                kWh/month
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>💨 Wind Calculation</h3>
+
+            <br>
+
+            Wind Available:
+            <b>${windAvailable ? "Yes" : "No"}</b>
+
+            <br>
+
+            Turbine Capacity:
+            <b>${windCapacity} kW</b>
+
+            <br>
+
+            Number of Turbines:
+            <b>${numberOfTurbines}</b>
+
+            <br>
+
+            Wind Speed:
+            <b>${windSpeed} m/s</b>
+
+            <br>
+
+            Capacity Factor:
+            <b>${(capacityFactor * 100).toFixed(0)}%</b>
+
+            <br><br>
+
+            Raw Wind Generation:
+
+            ${windCapacity}
+            ×
+            ${numberOfTurbines}
+            ×
+            24
+            ×
+            ${capacityFactor.toFixed(2)}
+
+            =
+
+            <b>
+                ${rawWindGeneration.toFixed(2)}
+                kWh/day
+            </b>
+
+            <br>
+
+            Household Share:
+            <b>${windShare}%</b>
+
+            <br>
+
+            Wind supplied to household:
+
+            <b>
+                ${windGeneration.toFixed(2)}
+                kWh/day
+            </b>
+
+            <br>
+
+            Monthly Wind:
+
+            <b>
+                ${monthlyWind.toFixed(2)}
+                kWh/month
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>🌱 Renewable Energy</h3>
+
+            <br>
+
+            Solar:
+
+            ${solarGeneration.toFixed(2)}
+            kWh/day
+
+            <br>
+
+            Wind:
+
+            ${windGeneration.toFixed(2)}
+            kWh/day
+
+            <br><br>
+
+            Total Renewable:
+
+            ${solarGeneration.toFixed(2)}
+            +
+            ${windGeneration.toFixed(2)}
+
+            =
+
+            <b>
+                ${totalRenewable.toFixed(2)}
+                kWh/day
+            </b>
+
+            <br>
+
+            Monthly Renewable:
+
+            <b>
+                ${monthlyRenewable.toFixed(2)}
+                kWh/month
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>🔌 Grid Calculation</h3>
+
+            <br>
+
+            Consumption:
+
+            ${totalConsumption.toFixed(2)}
+            kWh/day
+
+            <br>
+
+            Renewable:
+
+            ${totalRenewable.toFixed(2)}
+            kWh/day
+
+            <br><br>
+
+            Grid Required:
+
+            max(
+            ${totalConsumption.toFixed(2)}
+            -
+            ${totalRenewable.toFixed(2)},
+            0
+            )
+
+            =
+
+            <b>
+                ${gridRequired.toFixed(2)}
+                kWh/day
+            </b>
+
+            <br>
+
+            Monthly Grid:
+
+            <b>
+                ${monthlyGrid.toFixed(2)}
+                kWh/month
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>🔋 Surplus Energy</h3>
+
+            <br>
+
+            Renewable:
+
+            ${totalRenewable.toFixed(2)}
+
+            -
+
+            Consumption:
+
+            ${totalConsumption.toFixed(2)}
+
+            <br><br>
+
+            Surplus:
+
+            <b>
+                ${surplus.toFixed(2)}
+                kWh/day
+            </b>
+
+            <br>
+
+            Monthly Surplus:
+
+            <b>
+                ${monthlySurplus.toFixed(2)}
+                kWh/month
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>🧾 Electricity Bill</h3>
+
+            <br>
+
+            <b>BEFORE RENEWABLE ENERGY</b>
+
+            <br><br>
+
+            Daily Consumption:
+
+            ${totalConsumption.toFixed(2)}
+            kWh
+
+            <br>
+
+            Rate:
+
+            ₹${rate.toFixed(2)} / kWh
+
+            <br>
+
+            Daily Bill:
+
+            ${totalConsumption.toFixed(2)}
+            ×
+            ₹${rate.toFixed(2)}
+
+            =
+
+            <b>
+                ₹${dailyBillBefore.toFixed(2)}
+            </b>
+
+            <br>
+
+            Monthly Bill:
+
+            ₹${dailyBillBefore.toFixed(2)}
+            × 30
+
+            =
+
+            <b>
+                ₹${monthlyBillBefore.toFixed(2)}
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>🌱 BILL AFTER RENEWABLE ENERGY</h3>
+
+            <br>
+
+            Grid Electricity:
+
+            ${gridRequired.toFixed(2)}
+            kWh/day
+
+            <br>
+
+            Rate:
+
+            ₹${rate.toFixed(2)} / kWh
+
+            <br>
+
+            Daily Bill:
+
+            ${gridRequired.toFixed(2)}
+            ×
+            ₹${rate.toFixed(2)}
+
+            =
+
+            <b>
+                ₹${dailyBillAfter.toFixed(2)}
+            </b>
+
+            <br>
+
+            Monthly Bill:
+
+            ₹${dailyBillAfter.toFixed(2)}
+            × 30
+
+            =
+
+            <b>
+                ₹${monthlyBillAfter.toFixed(2)}
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>💰 SAVINGS</h3>
+
+            <br>
+
+            Daily Saving:
+
+            ₹${dailyBillBefore.toFixed(2)}
+
+            -
+
+            ₹${dailyBillAfter.toFixed(2)}
+
+            =
+
+            <b>
+                ₹${dailySaving.toFixed(2)}
+            </b>
+
+            <br><br>
+
+            Monthly Saving:
+
+            ₹${monthlyBillBefore.toFixed(2)}
+
+            -
+
+            ₹${monthlyBillAfter.toFixed(2)}
+
+            =
+
+            <b>
+                ₹${monthlySaving.toFixed(2)}
+            </b>
+
+        </div>
+
+
+        <div class="calculation-line">
+
+            <h3>📊 Renewable Contribution</h3>
+
+            <br>
+
+            Renewable Energy:
+
+            ${totalRenewable.toFixed(2)}
+            kWh/day
+
+            <br>
+
+            Total Consumption:
+
+            ${totalConsumption.toFixed(2)}
+            kWh/day
+
+            <br><br>
+
+            Renewable Percentage:
+
+            (${totalRenewable.toFixed(2)}
+            ÷
+            ${totalConsumption.toFixed(2)})
+            × 100
+
+            =
+
+            <b>
+                ${renewablePercentage.toFixed(2)}%
+            </b>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "calculationDetails"
+    ).innerHTML =
+        detailedCalculation;
+
+
+    /* =================================================
+       15. CHART
+    ================================================= */
 
     createChart(
-        predictedConsumption,
+        totalConsumption,
         solarGeneration,
         windGeneration,
-        gridRequired,
-        surplus
+        gridRequired
     );
 
 
-    /* -------------------------------------
-       SCROLL TO RESULT
-    ------------------------------------- */
+    /* =================================================
+       16. GO TO DASHBOARD
+    ================================================= */
 
     document
         .getElementById("dashboard")
@@ -509,16 +1116,15 @@ function calculateEnergy() {
 }
 
 
-/* =========================================
+/* =====================================================
    CHART
-========================================= */
+===================================================== */
 
 function createChart(
     consumption,
     solar,
     wind,
-    grid,
-    surplus
+    grid
 ) {
 
     const canvas =
@@ -527,11 +1133,12 @@ function createChart(
         );
 
 
-    const ctx =
-        canvas.getContext("2d");
+    if (!canvas) {
+        return;
+    }
 
 
-    if (energyChart) {
+    if (energyChart !== null) {
 
         energyChart.destroy();
 
@@ -540,20 +1147,26 @@ function createChart(
 
     energyChart =
         new Chart(
-            ctx,
+            canvas,
             {
 
                 type: "bar",
 
+
                 data: {
 
                     labels: [
+
                         "Consumption",
+
                         "Solar",
+
                         "Wind",
-                        "Grid",
-                        "Surplus"
+
+                        "Grid"
+
                     ],
+
 
                     datasets: [
 
@@ -563,11 +1176,15 @@ function createChart(
                                 "Energy (kWh/day)",
 
                             data: [
+
                                 consumption,
+
                                 solar,
+
                                 wind,
-                                grid,
-                                surplus
+
+                                grid
+
                             ],
 
                             borderWidth: 1
@@ -578,9 +1195,13 @@ function createChart(
 
                 },
 
+
                 options: {
 
                     responsive: true,
+
+                    maintainAspectRatio: false,
+
 
                     plugins: {
 
@@ -591,6 +1212,7 @@ function createChart(
                         }
 
                     },
+
 
                     scales: {
 
@@ -603,7 +1225,7 @@ function createChart(
                                 display: true,
 
                                 text:
-                                    "kWh per day"
+                                    "Energy (kWh/day)"
 
                             }
 
@@ -617,13 +1239,3 @@ function createChart(
         );
 
 }
-
-
-/* =========================================
-   INITIAL RESULT
-========================================= */
-
-window.addEventListener(
-    "load",
-    calculateEnergy
-);

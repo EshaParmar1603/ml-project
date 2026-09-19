@@ -5,1006 +5,1273 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Smart Energy Predictor</title>
+    <title>Smart Energy Prediction</title>
 
     <link rel="stylesheet" href="style.css">
 
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+<!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar">
+<header>
+
+    <nav>
 
         <div class="logo">
-            ⚡ Smart<span>Energy</span>
+            ⚡ SmartEnergy
         </div>
 
         <div class="nav-links">
+
             <a href="#home">Home</a>
-            <a href="#appliances">Appliances</a>
-            <a href="#renewable">Renewable</a>
-            <a href="#dashboard">Dashboard</a>
-        </div>
 
-    </nav>
+            <a href="#appliances">
+                Appliances
+            </a>
 
+            <a href="#renewable">
+                Renewable
+            </a>
 
-    <!-- HERO -->
-
-    <section class="hero" id="home">
-
-        <div class="hero-content">
-
-            <p class="tag">
-                AI POWERED ENERGY ANALYSIS
-            </p>
-
-            <h1>
-                Smart Electricity
-                <span>Consumption</span>
-                Predictor
-            </h1>
-
-            <p>
-                Analyze your household electricity consumption,
-                rooftop solar and local wind energy in one place.
-            </p>
-
-            <a href="#appliances" class="hero-button">
-                Calculate Energy →
+            <a href="#dashboard">
+                Dashboard
             </a>
 
         </div>
 
-        <div class="hero-energy">
-            ☀️
-            <span>⚡</span>
-            🌬️
-        </div>
+    </nav>
 
-    </section>
+</header>
 
 
-    <!-- APPLIANCES -->
+<!-- ================= HERO ================= -->
 
-    <section class="section" id="appliances">
+<section id="home" class="hero">
 
-        <div class="section-title">
+    <div class="hero-content">
 
-            <p>STEP 1</p>
+        <p class="tag">
+            AI POWERED ENERGY ANALYSIS
+        </p>
 
-            <h2>🏠 Select Your Home Appliances</h2>
+        <h1>
+
+            Smart Electricity
 
             <span>
-                Tick the appliances you use and enter quantity and daily usage.
+                Consumption Predictor
             </span>
 
-        </div>
+        </h1>
 
+        <p>
 
-        <div class="appliance-grid">
+            Calculate household electricity consumption,
+            renewable energy generation, electricity bill
+            and estimated savings.
 
+        </p>
 
-            <!-- Refrigerator -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Refrigerator"
-                        data-power="150"
-                    >
-
-                    <span>❄️ Refrigerator</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                        placeholder="Qty"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="10"
-                        min="0"
-                        placeholder="Hours/day"
-                    >
-
-                </div>
-
-                <small>Approx. 150 W</small>
-
-            </div>
-
-
-            <!-- AC -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="AC"
-                        data-power="1500"
-                    >
-
-                    <span>❄️ Air Conditioner</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="6"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 1500 W</small>
-
-            </div>
-
-
-            <!-- Washing Machine -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Washing Machine"
-                        data-power="500"
-                    >
-
-                    <span>🧺 Washing Machine</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="1"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 500 W</small>
-
-            </div>
-
-
-            <!-- Fan -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Fan"
-                        data-power="75"
-                    >
-
-                    <span>🌀 Fan</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="4"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="8"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 75 W</small>
-
-            </div>
-
-
-            <!-- TV -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="TV"
-                        data-power="100"
-                    >
-
-                    <span>📺 Television</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="4"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 100 W</small>
-
-            </div>
-
-
-            <!-- Lights -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Lights"
-                        data-power="20"
-                    >
-
-                    <span>💡 Lights</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="6"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="6"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 20 W each</small>
-
-            </div>
-
-
-            <!-- Cooler -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Cooler"
-                        data-power="200"
-                    >
-
-                    <span>💨 Air Cooler</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="6"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 200 W</small>
-
-            </div>
-
-
-            <!-- Water Heater -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Water Heater"
-                        data-power="2000"
-                    >
-
-                    <span>🚿 Water Heater</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="1"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 2000 W</small>
-
-            </div>
-
-
-            <!-- Computer -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Computer"
-                        data-power="150"
-                    >
-
-                    <span>💻 Computer</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="5"
-                        min="0"
-                    >
-
-                </div>
-
-                <small>Approx. 150 W</small>
-
-            </div>
-
-
-            <!-- Microwave -->
-
-            <div class="appliance-card">
-
-                <label class="check-title">
-
-                    <input
-                        type="checkbox"
-                        class="appliance-check"
-                        data-name="Microwave"
-                        data-power="1200"
-                    >
-
-                    <span>🍲 Microwave</span>
-
-                </label>
-
-                <div class="appliance-inputs">
-
-                    <input
-                        type="number"
-                        class="quantity"
-                        value="1"
-                        min="1"
-                    >
-
-                    <input
-                        type="number"
-                        class="hours"
-                        value="0.5"
-                        min="0"
-                        step="0.1"
-                    >
-
-                </div>
-
-                <small>Approx. 1200 W</small>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- RENEWABLE -->
-
-    <section class="section renewable-section" id="renewable">
-
-        <div class="section-title">
-
-            <p>STEP 2</p>
-
-            <h2>♻️ Renewable Energy</h2>
-
-            <span>
-                Add rooftop solar and wind energy available in your locality.
-            </span>
-
-        </div>
-
-
-        <div class="renewable-grid">
-
-
-            <!-- SOLAR -->
-
-            <div class="renewable-card">
-
-                <div class="renewable-heading">
-
-                    <div class="big-icon">☀️</div>
-
-                    <div>
-
-                        <h3>Rooftop Solar</h3>
-
-                        <p>For your home</p>
-
-                    </div>
-
-                </div>
-
-
-                <label class="toggle-row">
-
-                    <input
-                        type="checkbox"
-                        id="solarAvailable"
-                        checked
-                    >
-
-                    <span>Solar available at home</span>
-
-                </label>
-
-
-                <label>
-                    Solar Capacity (kW)
-                </label>
-
-                <input
-                    type="number"
-                    id="solarCapacity"
-                    value="3"
-                    min="0"
-                    step="0.1"
-                >
-
-
-                <label>
-                    Sunlight Hours / Day
-                </label>
-
-                <input
-                    type="number"
-                    id="sunHours"
-                    value="5"
-                    min="0"
-                    max="15"
-                    step="0.1"
-                >
-
-            </div>
-
-
-            <!-- WIND -->
-
-            <div class="renewable-card">
-
-                <div class="renewable-heading">
-
-                    <div class="big-icon">🌬️</div>
-
-                    <div>
-
-                        <h3>Local Wind Energy</h3>
-
-                        <p>Wind turbine / wind farm</p>
-
-                    </div>
-
-                </div>
-
-
-                <label class="toggle-row">
-
-                    <input
-                        type="checkbox"
-                        id="windAvailable"
-                    >
-
-                    <span>Wind turbine available locally</span>
-
-                </label>
-
-
-                <label>
-                    Turbine Capacity (kW)
-                </label>
-
-                <input
-                    type="number"
-                    id="windCapacity"
-                    value="500"
-                    min="0"
-                    step="1"
-                >
-
-
-                <label>
-                    Number of Turbines
-                </label>
-
-                <input
-                    type="number"
-                    id="windTurbines"
-                    value="1"
-                    min="1"
-                >
-
-
-                <label>
-                    Average Wind Speed (m/s)
-                </label>
-
-                <input
-                    type="number"
-                    id="windSpeed"
-                    value="6"
-                    min="0"
-                    step="0.1"
-                >
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- OTHER INPUTS -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <p>STEP 3</p>
-
-            <h2>⚙️ Other Details</h2>
-
-        </div>
-
-
-        <div class="other-inputs">
-
-            <div>
-
-                <label>
-                    👨‍👩‍👧 Number of People
-                </label>
-
-                <input
-                    type="number"
-                    id="people"
-                    value="4"
-                    min="1"
-                >
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    🌡️ Average Temperature (°C)
-                </label>
-
-                <input
-                    type="number"
-                    id="temperature"
-                    value="30"
-                >
-
-            </div>
-
-
-            <div>
-
-                <label>
-                    💰 Electricity Rate (₹/kWh)
-                </label>
-
-                <input
-                    type="number"
-                    id="rate"
-                    value="8"
-                    min="0"
-                    step="0.1"
-                >
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="calculate-button"
-            onclick="calculateEnergy()"
+        <a
+            href="#appliances"
+            class="hero-btn"
         >
-            ⚡ Calculate My Energy
-        </button>
+            Start Calculation ⚡
+        </a>
 
-    </section>
+    </div>
 
-
-    <!-- DASHBOARD -->
-
-    <section class="section dashboard-section" id="dashboard">
-
-        <div class="section-title">
-
-            <p>RESULT</p>
-
-            <h2>⚡ Your Energy Dashboard</h2>
-
-        </div>
+</section>
 
 
-        <div class="result-grid">
+<!-- ================= HOUSEHOLD ================= -->
+
+<section class="section">
+
+    <h2>
+        🏠 Household Information
+    </h2>
+
+    <div class="info-grid">
 
 
-            <div class="result-card solar-result">
+        <div class="input-card">
 
-                <span>☀️</span>
+            <label>
+                Number of People
+            </label>
 
-                <p>Solar Generation</p>
-
-                <h2 id="solarResult">0 kWh</h2>
-
-                <small>Estimated daily</small>
-
-            </div>
-
-
-            <div class="result-card wind-result">
-
-                <span>🌬️</span>
-
-                <p>Local Wind Generation</p>
-
-                <h2 id="windResult">0 kWh</h2>
-
-                <small>Estimated daily</small>
-
-            </div>
-
-
-            <div class="result-card">
-
-                <span>🏠</span>
-
-                <p>House Consumption</p>
-
-                <h2 id="consumptionResult">0 kWh</h2>
-
-                <small>Estimated daily</small>
-
-            </div>
-
-
-            <div class="result-card renewable-result">
-
-                <span>♻️</span>
-
-                <p>Total Renewable</p>
-
-                <h2 id="renewableResult">0 kWh</h2>
-
-                <small id="renewablePercent">
-                    0% of consumption
-                </small>
-
-            </div>
-
-
-            <div class="result-card grid-result">
-
-                <span>🔌</span>
-
-                <p>Grid Required</p>
-
-                <h2 id="gridResult">0 kWh</h2>
-
-                <small>Daily requirement</small>
-
-            </div>
-
-
-            <div class="result-card surplus-result">
-
-                <span>🔋</span>
-
-                <p>Surplus Energy</p>
-
-                <h2 id="surplusResult">0 kWh</h2>
-
-                <small>Potential export</small>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- BEFORE AFTER -->
-
-    <section class="section">
-
-        <div class="section-title">
-
-            <p>ENERGY IMPACT</p>
-
-            <h2>📊 Before vs After Renewable Energy</h2>
+            <input
+                type="number"
+                id="people"
+                value="4"
+                min="1"
+            >
 
         </div>
 
 
-        <div class="comparison">
+        <div class="input-card">
 
-            <div class="comparison-box">
+            <label>
+                Electricity Rate (₹/kWh)
+            </label>
 
-                <h3>🏠 Without Renewable Energy</h3>
-
-                <div class="row">
-
-                    <span>Consumption</span>
-
-                    <strong id="beforeConsumption">0</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Solar</span>
-
-                    <strong>0 kWh</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Wind</span>
-
-                    <strong>0 kWh</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Grid Required</span>
-
-                    <strong id="beforeGrid">0</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Daily Cost</span>
-
-                    <strong id="beforeCost">₹0</strong>
-
-                </div>
-
-            </div>
-
-
-            <div class="comparison-box after">
-
-                <h3>♻️ With Solar + Wind</h3>
-
-                <div class="row">
-
-                    <span>Consumption</span>
-
-                    <strong id="afterConsumption">0</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Solar</span>
-
-                    <strong id="afterSolar">0</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Wind</span>
-
-                    <strong id="afterWind">0</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Grid Required</span>
-
-                    <strong id="afterGrid">0</strong>
-
-                </div>
-
-                <div class="row">
-
-                    <span>Daily Cost</span>
-
-                    <strong id="afterCost">₹0</strong>
-
-                </div>
-
-            </div>
+            <input
+                type="number"
+                id="rate"
+                value="7"
+                min="0"
+                step="0.1"
+            >
 
         </div>
 
-    </section>
 
+        <div class="input-card">
 
-    <!-- SAVINGS -->
+            <label>
+                Average Temperature (°C)
+            </label>
 
-    <section class="saving-section">
-
-        <div class="saving-card">
-
-            <div>
-
-                <p>ESTIMATED SAVINGS</p>
-
-                <h2 id="savingResult">₹0 / month</h2>
-
-                <span>
-                    Based on estimated daily generation
-                </span>
-
-            </div>
-
-            <div class="saving-icon">
-                💰
-            </div>
+            <input
+                type="number"
+                id="temperature"
+                value="30"
+                min="0"
+                max="60"
+            >
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- CHART -->
+<!-- ================= APPLIANCES ================= -->
 
-    <section class="section">
+<section
+    id="appliances"
+    class="section"
+>
 
-        <div class="section-title">
+    <h2>
+        🔌 Select Appliances
+    </h2>
 
-            <p>VISUAL ANALYSIS</p>
+    <p class="section-subtitle">
 
-            <h2>📈 Energy Distribution</h2>
+        Select the appliances you use and enter
+        quantity and daily usage hours.
+
+    </p>
+
+
+    <div class="appliance-grid">
+
+
+        <!-- Refrigerator -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="150"
+                    data-name="Refrigerator"
+                >
+
+                <h3>
+                    ❄️ Refrigerator
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 150 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="8"
+                min="0"
+                max="24"
+                step="0.1"
+            >
 
         </div>
 
-        <div class="chart-box">
+
+        <!-- AC -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="1500"
+                    data-name="Air Conditioner"
+                >
+
+                <h3>
+                    ❄️ AC
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 1500 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="6"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Washing Machine -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="500"
+                    data-name="Washing Machine"
+                >
+
+                <h3>
+                    🧺 Washing Machine
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 500 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="1"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Fan -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="75"
+                    data-name="Fan"
+                >
+
+                <h3>
+                    🌀 Fan
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 75 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="3"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="8"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- TV -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="100"
+                    data-name="TV"
+                >
+
+                <h3>
+                    📺 TV
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 100 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="4"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Lights -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="20"
+                    data-name="Lights"
+                >
+
+                <h3>
+                    💡 Lights
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 20 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="5"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="6"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Cooler -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="200"
+                    data-name="Cooler"
+                >
+
+                <h3>
+                    💨 Cooler
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 200 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="5"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Water Heater -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="2000"
+                    data-name="Water Heater"
+                >
+
+                <h3>
+                    🔥 Water Heater
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 2000 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="1"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Computer -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="150"
+                    data-name="Computer / Laptop"
+                >
+
+                <h3>
+                    💻 Computer
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 150 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="5"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- Microwave -->
+
+        <div class="appliance-card">
+
+            <div class="appliance-header">
+
+                <input
+                    type="checkbox"
+                    class="appliance-check"
+                    data-power="1200"
+                    data-name="Microwave"
+                >
+
+                <h3>
+                    🍲 Microwave
+                </h3>
+
+            </div>
+
+            <p>
+                Power: 1200 W
+            </p>
+
+            <label>
+                Quantity
+            </label>
+
+            <input
+                class="quantity"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+            <label>
+                Hours / Day
+            </label>
+
+            <input
+                class="hours"
+                type="number"
+                value="0.5"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RENEWABLE ================= -->
+
+<section
+    id="renewable"
+    class="section"
+>
+
+    <h2>
+        🌱 Renewable Energy
+    </h2>
+
+
+    <div class="renewable-grid">
+
+
+        <!-- SOLAR -->
+
+        <div class="renewable-card solar">
+
+            <h3>
+                ☀️ Rooftop Solar
+            </h3>
+
+
+            <label class="switch-label">
+
+                <input
+                    type="checkbox"
+                    id="solarAvailable"
+                    checked
+                >
+
+                Solar Available
+
+            </label>
+
+
+            <label>
+                Solar Capacity (kW)
+            </label>
+
+            <input
+                type="number"
+                id="solarCapacity"
+                value="3"
+                min="0"
+                step="0.1"
+            >
+
+
+            <label>
+                Sunlight Hours / Day
+            </label>
+
+            <input
+                type="number"
+                id="sunlightHours"
+                value="5"
+                min="0"
+                max="24"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <!-- WIND -->
+
+        <div class="renewable-card wind">
+
+            <h3>
+                💨 Local Wind Energy
+            </h3>
+
+
+            <label class="switch-label">
+
+                <input
+                    type="checkbox"
+                    id="windAvailable"
+                >
+
+                Wind Available
+
+            </label>
+
+
+            <label>
+                Wind Turbine Capacity (kW)
+            </label>
+
+            <input
+                type="number"
+                id="windCapacity"
+                value="500"
+                min="0"
+                step="0.1"
+            >
+
+
+            <label>
+                Number of Turbines
+            </label>
+
+            <input
+                type="number"
+                id="numberOfTurbines"
+                value="1"
+                min="1"
+            >
+
+
+            <label>
+                Average Wind Speed (m/s)
+            </label>
+
+            <input
+                type="number"
+                id="windSpeed"
+                value="6"
+                min="0"
+                step="0.1"
+            >
+
+
+            <label>
+                Household Wind Share (%)
+            </label>
+
+            <input
+                type="number"
+                id="windShare"
+                value="0.1"
+                min="0"
+                max="100"
+                step="0.01"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CALCULATE ================= -->
+
+<section class="calculate-section">
+
+    <button
+        id="calculateBtn"
+        type="button"
+    >
+
+        ⚡ Calculate Energy & Bill
+
+    </button>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section
+    id="dashboard"
+    class="section dashboard"
+>
+
+    <h2>
+        📊 Energy Dashboard
+    </h2>
+
+
+    <div class="result-grid">
+
+
+        <!-- CONSUMPTION -->
+
+        <div class="result-card">
+
+            <span>🏠</span>
+
+            <h3>
+                Consumption
+            </h3>
+
+            <strong id="consumptionResult">
+                0
+            </strong>
+
+            <small>
+                kWh / day
+            </small>
+
+        </div>
+
+
+        <!-- SOLAR -->
+
+        <div class="result-card">
+
+            <span>☀️</span>
+
+            <h3>
+                Solar Generation
+            </h3>
+
+            <strong id="solarResult">
+                0
+            </strong>
+
+            <small>
+                kWh / day
+            </small>
+
+        </div>
+
+
+        <!-- WIND -->
+
+        <div class="result-card">
+
+            <span>💨</span>
+
+            <h3>
+                Wind Generation
+            </h3>
+
+            <strong id="windResult">
+                0
+            </strong>
+
+            <small>
+                kWh / day
+            </small>
+
+        </div>
+
+
+        <!-- RENEWABLE -->
+
+        <div class="result-card">
+
+            <span>🌱</span>
+
+            <h3>
+                Total Renewable
+            </h3>
+
+            <strong id="renewableResult">
+                0
+            </strong>
+
+            <small>
+                kWh / day
+            </small>
+
+        </div>
+
+
+        <!-- GRID -->
+
+        <div class="result-card">
+
+            <span>🔌</span>
+
+            <h3>
+                Grid Required
+            </h3>
+
+            <strong id="gridResult">
+                0
+            </strong>
+
+            <small>
+                kWh / day
+            </small>
+
+        </div>
+
+
+        <!-- RENEWABLE % -->
+
+        <div class="result-card">
+
+            <span>📈</span>
+
+            <h3>
+                Renewable Share
+            </h3>
+
+            <strong id="percentageResult">
+                0%
+            </strong>
+
+            <small>
+                of consumption
+            </small>
+
+        </div>
+
+
+        <!-- DAILY BILL BEFORE -->
+
+        <div class="result-card bill-card">
+
+            <span>💰</span>
+
+            <h3>
+                Daily Bill Before
+            </h3>
+
+            <strong id="dailyBillBefore">
+                ₹0
+            </strong>
+
+            <small>
+                per day
+            </small>
+
+        </div>
+
+
+        <!-- MONTHLY BILL BEFORE -->
+
+        <div class="result-card bill-card">
+
+            <span>📅</span>
+
+            <h3>
+                Monthly Bill Before
+            </h3>
+
+            <strong id="monthlyBillBefore">
+                ₹0
+            </strong>
+
+            <small>
+                30 days
+            </small>
+
+        </div>
+
+
+        <!-- DAILY BILL AFTER -->
+
+        <div class="result-card bill-card">
+
+            <span>🌱</span>
+
+            <h3>
+                Daily Bill After
+            </h3>
+
+            <strong id="dailyBillAfter">
+                ₹0
+            </strong>
+
+            <small>
+                after renewable
+            </small>
+
+        </div>
+
+
+        <!-- MONTHLY BILL AFTER -->
+
+        <div class="result-card bill-card">
+
+            <span>🏦</span>
+
+            <h3>
+                Monthly Bill After
+            </h3>
+
+            <strong id="monthlyBillAfter">
+                ₹0
+            </strong>
+
+            <small>
+                after renewable
+            </small>
+
+        </div>
+
+
+        <!-- MONTHLY SAVING -->
+
+        <div class="result-card saving-card">
+
+            <span>💵</span>
+
+            <h3>
+                Monthly Saving
+            </h3>
+
+            <strong id="monthlySaving">
+                ₹0
+            </strong>
+
+            <small>
+                estimated saving
+            </small>
+
+        </div>
+
+
+        <!-- SURPLUS -->
+
+        <div class="result-card">
+
+            <span>🔋</span>
+
+            <h3>
+                Surplus Energy
+            </h3>
+
+            <strong id="surplusResult">
+                0
+            </strong>
+
+            <small>
+                kWh / day
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= BILL SUMMARY ================= -->
+
+    <div class="bill-summary">
+
+        <h2>
+            🧾 Electricity Bill Summary
+        </h2>
+
+
+        <div class="bill-row">
+
+            <span>
+                Daily Consumption
+            </span>
+
+            <strong id="billConsumption">
+                0 kWh
+            </strong>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Electricity Rate
+            </span>
+
+            <strong id="billRate">
+                ₹0 / kWh
+            </strong>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Daily Bill Before Renewable
+            </span>
+
+            <strong id="billBefore">
+                ₹0
+            </strong>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Renewable Energy
+            </span>
+
+            <strong id="billRenewable">
+                0 kWh
+            </strong>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Grid Energy Required
+            </span>
+
+            <strong id="billGrid">
+                0 kWh
+            </strong>
+
+        </div>
+
+
+        <div class="bill-row">
+
+            <span>
+                Daily Bill After Renewable
+            </span>
+
+            <strong id="billAfter">
+                ₹0
+            </strong>
+
+        </div>
+
+
+        <div class="bill-total">
+
+            <span>
+                Estimated Monthly Bill
+            </span>
+
+            <strong id="billMonthly">
+                ₹0
+            </strong>
+
+        </div>
+
+
+        <div class="bill-saving">
+
+            💚 Estimated Monthly Saving:
+
+            <strong id="billSaving">
+                ₹0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CALCULATION ================= -->
+
+    <div class="calculation-box">
+
+        <h2>
+            🧮 Detailed Calculation
+        </h2>
+
+        <div id="calculationDetails">
+
+            Select appliances and click
+            <b>Calculate Energy & Bill</b>.
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= CHART ================= -->
+
+    <div class="chart-box">
+
+        <h2>
+            📊 Energy Comparison
+        </h2>
+
+        <div class="chart-container">
 
             <canvas id="energyChart"></canvas>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
-    <!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 
-    <footer>
+<footer>
 
-        <h2>⚡ SmartEnergy</h2>
+    <p>
+        ⚡ SmartEnergy | Electricity Consumption Prediction
+        & Renewable Energy Analysis
+    </p>
 
-        <p>
-            Smart household electricity and renewable energy analysis.
-        </p>
-
-        <p>
-            Educational project using Linear Regression concepts.
-        </p>
-
-    </footer>
+</footer>
 
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 
